@@ -30,13 +30,19 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Display a form for creating a new snippet..."))
 }
 
+// Add a snippetCreatePost handler function
+func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Save a new snippet..."))
+}
+
 func main() {
-	// Use the http.NewServeMux() function to initialize a new servemux, then
-	// register the home function as the handler for the "/" URL pattern.
+	// Prefix the route patterns with the required HTTP method (for now, we will
+	// restrict all three routes to acting on GET requests).
 	mux := http.NewServeMux()
-	mux.HandleFunc("/{$}", home)                      // Restrict this route to exact matches on / only.
-	mux.HandleFunc("/snippet/view/{id}", snippetView) // Add the {id} wildcard segment
-	mux.HandleFunc("/snippet/create", snippetCreate)
+	mux.HandleFunc("GET /{$}", home)                      // Restrict this route to exact matches on / only.
+	mux.HandleFunc("GET /snippet/view/{id}", snippetView) // Add the {id} wildcard segment
+	mux.HandleFunc("GET /snippet/create", snippetCreate)
+	mux.HandleFunc("POST /snippet/create", snippetCreatePost)
 
 	// Print a log message to say that the server is starting.
 	log.Print("starting server on :4000")
