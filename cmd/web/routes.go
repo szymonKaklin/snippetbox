@@ -13,6 +13,6 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /snippet/create", app.snippetCreate)
 	mux.HandleFunc("POST /snippet/create", app.snippetCreatePost)
 
-	// logRequest ↔ commonHeaders ↔ servemux ↔ application handler
-	return app.logRequest(commonHeaders(mux))
+	// recoverPanic ↔ logRequest ↔ commonHeaders ↔ servemux ↔ application handler
+	return app.recoverPanic(app.logRequest(commonHeaders(mux)))
 }
